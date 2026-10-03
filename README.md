@@ -1,14 +1,73 @@
-# Beta Pricing Matrix Engine (`beta-pricing-matrix-v1`)
+# React + TypeScript + Vite
 
-[![Version](https://img.shields.io/badge/version-1.0.0--beta-blue.svg)](#)
-[![Environment](https://img.shields.io/badge/runtime-Node.js%20v20%20%7C%20Python%203.11-success.svg)](#)
-[![Architecture](https://img.shields.io/badge/architecture-Modular%20Rules%20Engine-slate.svg)](#)
-[![License](https://img.shields.io/badge/license-Proprietary-gold.svg)](#)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-A deterministic scoring and dynamic pricing engine designed to evaluate scoping variables, calculate margin thresholds, and output validated tier proposals across custom client workflows. Built for high-volume automated scoring, agent execution pipelines, and integrated data syncs.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## System Overview
+## React Compiler
 
-The **Beta Pricing Matrix** ingest unstructured project variables, historical cost baselines, and scope parameters to calculate real-time pricing tiers. It replaces static estimation with deterministic decision logic, enforcing gross margin guardrails and milestone-based fee structures.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
